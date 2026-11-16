@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="FAT" />
+  <title>Daily Activities FAT</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="loading" class="loading hidden"><div class="spinner"></div></div>
+
+  <section id="view-login" class="screen">
+    <div class="login-card glass">
+      <div class="logo"></div>
+      <h1>Daily Activities FAT</h1>
+      <p class="muted">Masukkan kata sandi tim untuk membuka aktivitas harian.</p>
+      <form id="login-form">
+        <label id="url-wrap" class="field hidden">
+          <span>Alamat Apps Script (berakhiran /exec)</span>
+          <input id="login-url" type="url" inputmode="url" placeholder="https://script.google.com/macros/s/.../exec" />
+        </label>
+        <label class="field">
+          <span>Kata sandi</span>
+          <input id="login-token" type="password" autocomplete="current-password" required />
+        </label>
+        <p id="login-error" class="error"></p>
+        <button class="btn-primary" type="submit">Masuk</button>
+      </form>
+    </div>
+  </section>
+
+  <section id="app" class="hidden">
+    <header class="topbar">
+      <div>
+        <strong>Daily Activities FAT</strong>
+        <small>Tim FAT</small>
+      </div>
+      <button id="btn-logout" class="btn-ghost small" type="button">Keluar</button>
+    </header>
+
+    <main>
+      <section id="view-input" class="view">
+        <h2 id="form-title">Input aktivitas</h2>
+        <form id="activity-form" class="card">
+          <label class="field">
+            <span>Tanggal</span>
+            <input id="f-tanggal" type="date" required />
+          </label>
+          <label class="field">
+            <span>PIC</span>
+            <select id="f-pic" required></select>
+          </label>
+          <label class="field">
+            <span>Tugas</span>
+            <select id="f-tugas" required></select>
+          </label>
+          <div class="field">
+            <span>Status</span>
+            <div class="seg" id="f-status">
+              <button type="button" data-status="Tercapai">Tercapai</button>
+              <button type="button" data-status="Sebagian">Sebagian</button>
+              <button type="button" data-status="Belum">Belum</button>
+            </div>
+          </div>
+          <label class="field">
+            <span>Catatan (opsional)</span>
+            <textarea id="f-catatan" rows="3" maxlength="500"></textarea>
+          </label>
+          <p id="form-error" class="error"></p>
+          <button class="btn-primary" type="submit" id="btn-save">Simpan</button>
+          <button class="btn-ghost hidden" type="button" id="btn-cancel-edit">Batal ubah</button>
+          <button class="btn-danger hidden" type="button" id="btn-delete">Hapus aktivitas</button>
+        </form>
+      </section>
+
+      <section id="view-riwayat" class="view hidden">
+        <h2>Riwayat</h2>
+        <div class="card">
+          <label class="field">
+            <span>PIC</span>
+            <select id="h-pic"></select>
+          </label>
+          <label class="field">
+            <span>Tanggal (kosongkan = semua)</span>
+            <input id="h-tanggal" type="date" />
+          </label>
+        </div>
+        <div id="list"></div>
+      </section>
+
+      <section id="view-rekap" class="view hidden">
+        <h2>Rekap Mingguan</h2>
+        <div class="card">
+          <label class="field">
+            <span>Tanggal dalam minggu yang diinginkan</span>
+            <input id="r-tanggal" type="date" />
+          </label>
+          <p id="r-range" class="muted"></p>
+        </div>
+        <div id="rekap"></div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <button data-view="input" class="active" type="button">Input</button>
+      <button data-view="riwayat" type="button">Riwayat</button>
+      <button data-view="rekap" type="button">Rekap</button>
+    </nav>
+  </section>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-box">
+      <p id="modal-text"></p>
+      <div class="row end">
+        <button id="modal-no" class="btn-ghost" type="button">Batal</button>
+        <button id="modal-yes" class="btn-danger" type="button">Ya</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+  </script>
+</body>
+</html>
